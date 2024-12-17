@@ -1,9 +1,13 @@
 com/github/benisraelnir/gripme/service/GitHubService.class
 com/github/benisraelnir/gripme/core/asset/LocalAssetManager.class
+com/github/benisraelnir/gripme/core/renderer/GitHubRenderer.class
+com/github/benisraelnir/gripme/config/RendererConfig.class
+com/github/benisraelnir/gripme/core/reader/StdinReader.class
 com/github/benisraelnir/gripme/controller/MarkdownController.class
 com/github/benisraelnir/gripme/config/WebConfig.class
 com/github/benisraelnir/gripme/core/reader/TextReader.class
 com/github/benisraelnir/gripme/config/GitHubConfig$RateLimitInterceptor.class
+com/github/benisraelnir/gripme/core/asset/GitHubAssetManager.class
 com/github/benisraelnir/gripme/config/ReaderConfig.class
 com/github/benisraelnir/gripme/core/reader/Reader.class
 com/github/benisraelnir/gripme/core/asset/AssetManager.class

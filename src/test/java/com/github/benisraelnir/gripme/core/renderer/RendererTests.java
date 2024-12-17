@@ -1,15 +1,17 @@
 package com.github.benisraelnir.gripme.core.renderer;
 
+import com.github.benisraelnir.gripme.service.GitHubService;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class RendererTests {
@@ -27,21 +29,25 @@ class RendererTests {
 
     @Test
     void githubRendererShouldCallGithubApi() throws Exception {
-        RestTemplate restTemplate = mock(RestTemplate.class);
-        String githubApiUrl = "https://api.github.com";
-        Map<String, String> headers = new HashMap<>();
+        // Create mock GitHubService
+        GitHubService githubService = mock(GitHubService.class);
+        when(githubService.renderMarkdown(anyString(), anyBoolean(), anyString()))
+            .thenReturn("<h1>Rendered Content</h1>");
 
-        when(restTemplate.postForObject(
-            eq(githubApiUrl + "/markdown"),
-            any(Map.class),
-            eq(String.class)
-        )).thenReturn("<h1>Rendered Content</h1>");
+        // Create renderer with mock service
+        Renderer renderer = new GitHubRenderer(githubService);
 
-        Renderer renderer = new GitHubRenderer(restTemplate, githubApiUrl, headers);
+        // Test data
         String markdown = "# Test";
         Map<String, Object> context = new HashMap<>();
+        context.put("gfm", true);
+        context.put("context", "test/repo");
 
+        // Execute and verify
         String result = renderer.render(markdown, context);
         assertEquals("<h1>Rendered Content</h1>", result);
+
+        // Verify service was called with correct parameters
+        verify(githubService).renderMarkdown(markdown, true, "test/repo");
     }
 }
