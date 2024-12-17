@@ -51,7 +51,7 @@ public class GitHubConfig {
 
         @Override
         public ClientHttpResponse intercept(HttpRequest request, byte[] body,
-                                         ClientHttpRequestInterceptor.ClientHttpRequestExecution execution)
+                                         ClientHttpRequestExecution execution)
                 throws IOException {
             // Check if we need to wait for rate limit reset
             long currentResetTime = resetTime.get();
