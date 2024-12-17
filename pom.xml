@@ -20,6 +20,7 @@
     <properties>
         <java.version>17</java.version>
         <flexmark.version>0.64.8</flexmark.version>
+        <picocli.version>4.7.5</picocli.version>
     </properties>
 
     <dependencies>
@@ -72,6 +73,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- CLI Support -->
+        <dependency>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli-spring-boot-starter</artifactId>
+            <version>${picocli.version}</version>
         </dependency>
     </dependencies>
 
