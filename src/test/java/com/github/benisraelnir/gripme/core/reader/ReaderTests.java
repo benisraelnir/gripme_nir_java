@@ -6,6 +6,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.ByteArrayInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,6 +33,9 @@ class ReaderTests {
         assertEquals(content, reader.read());
         assertFalse(reader.hasChanged());
 
+        // Ensure enough time passes for filesystem to register the change
+        TimeUnit.MILLISECONDS.sleep(100);
+
         // Test file modification detection
         Files.writeString(file, content + " Updated");
         assertTrue(reader.hasChanged());
@@ -56,11 +60,5 @@ class ReaderTests {
 
         // Second read should return cached content
         assertEquals(testInput, reader.read());
-    }
-}
-
-        assertNotNull(firstRead);
-        assertEquals(firstRead, secondRead);
-        assertFalse(reader.hasChanged());
     }
 }
