@@ -33,8 +33,8 @@ class FileWatchServiceTest {
             .thenReturn(2000L);
 
         // When
-        fileWatchService.watchFiles();
-        fileWatchService.watchFiles();
+        fileWatchService.watchFiles(); // Initialize
+        fileWatchService.watchFiles(); // Should trigger notification
 
         // Then
         verify(messagingTemplate, times(1))
@@ -49,11 +49,11 @@ class FileWatchServiceTest {
             .thenReturn(1000L);
 
         // When
-        fileWatchService.watchFiles();
-        fileWatchService.watchFiles();
+        fileWatchService.watchFiles(); // Initialize
+        fileWatchService.watchFiles(); // Should not trigger notification
 
         // Then
-        verify(messagingTemplate, times(1))
+        verify(messagingTemplate, never())
             .convertAndSend("/topic/refresh", "refresh");
     }
 }
