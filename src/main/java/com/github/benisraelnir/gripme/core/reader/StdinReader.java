@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class StdinReader implements Reader {
     private final InputStream inputStream;
     private String cachedContent;
+    private final long creationTime;
 
     public StdinReader() {
         this(System.in);
@@ -18,6 +19,7 @@ public class StdinReader implements Reader {
 
     public StdinReader(InputStream inputStream) {
         this.inputStream = inputStream;
+        this.creationTime = System.currentTimeMillis();
     }
 
     @Override
@@ -33,5 +35,10 @@ public class StdinReader implements Reader {
     @Override
     public boolean hasChanged() {
         return false;
+    }
+
+    @Override
+    public Long lastUpdated(String path) {
+        return creationTime;
     }
 }

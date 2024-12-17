@@ -1,13 +1,16 @@
 package com.github.benisraelnir.gripme.core.reader;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Reads Markdown content from a text string.
  */
-@RequiredArgsConstructor
 public class TextReader implements Reader {
     private final String content;
+    private final long creationTime;
+
+    public TextReader(String content) {
+        this.content = content;
+        this.creationTime = System.currentTimeMillis();
+    }
 
     @Override
     public String read(String path) {
@@ -17,5 +20,10 @@ public class TextReader implements Reader {
     @Override
     public boolean hasChanged() {
         return false;
+    }
+
+    @Override
+    public Long lastUpdated(String path) {
+        return creationTime;
     }
 }

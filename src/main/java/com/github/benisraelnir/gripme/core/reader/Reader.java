@@ -20,4 +20,12 @@ public interface Reader {
      * @throws Exception if check fails
      */
     boolean hasChanged() throws Exception;
+
+    /**
+     * Gets the last update timestamp of the content.
+     *
+     * @param path The path to check (optional)
+     * @return The last update timestamp in milliseconds, or null if not applicable
+     */
+    Long lastUpdated(String path);
 }

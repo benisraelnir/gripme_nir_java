@@ -57,4 +57,14 @@ public class DirectoryReader implements Reader {
         }
         return false;
     }
+
+    @Override
+    public Long lastUpdated(String path) {
+        try {
+            Path resolvedPath = path != null ? basePath.resolve(path) : basePath;
+            return Files.exists(resolvedPath) ? Files.getLastModifiedTime(resolvedPath).toMillis() : null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
