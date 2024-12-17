@@ -1,7 +1,6 @@
 package com.github.benisraelnir.gripme.core.reader;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.nio.file.Files;
@@ -13,7 +12,6 @@ import java.util.Map;
 /**
  * Reads Markdown content from a directory/file path.
  */
-@Component
 public class DirectoryReader implements Reader {
     private final Path basePath;
     private final Map<Path, FileTime> lastModifiedTimes;
