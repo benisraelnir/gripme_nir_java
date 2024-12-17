@@ -16,7 +16,9 @@ public class GitHubRenderer implements Renderer {
 
     @Override
     public String render(String content, Map<String, Object> context) throws Exception {
-        return githubService.renderMarkdown(content, context);
+        boolean isGfm = (boolean) context.getOrDefault("gfm", false);
+        String repoContext = (String) context.getOrDefault("context", "");
+        return githubService.renderMarkdown(content, isGfm, repoContext);
     }
 
     @Override
