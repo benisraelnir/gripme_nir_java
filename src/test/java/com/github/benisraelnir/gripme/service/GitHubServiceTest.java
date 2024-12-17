@@ -25,7 +25,7 @@ class GitHubServiceTest {
     }
 
     @Test
-    void testRenderMarkdownWithoutAuth() {
+    void testRenderMarkdownWithoutAuth() throws Exception {
         String markdown = "# Test";
         String expectedHtml = "<h1>Test</h1>";
 
@@ -51,7 +51,7 @@ class GitHubServiceTest {
     }
 
     @Test
-    void testRenderMarkdownWithAuth() {
+    void testRenderMarkdownWithAuth() throws Exception {
         githubService.setCredentials("user", "pass");
         String markdown = "# Test";
         String expectedHtml = "<h1>Test</h1>";
@@ -78,7 +78,7 @@ class GitHubServiceTest {
     }
 
     @Test
-    void testGetAssetWithAuth() {
+    void testGetAssetWithAuth() throws Exception {
         githubService.setCredentials("user", "pass");
         byte[] expectedData = "test data".getBytes();
         String path = "test/path";
