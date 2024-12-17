@@ -3,6 +3,7 @@ package com.github.benisraelnir.gripme.core.reader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.ByteArrayInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -44,12 +45,19 @@ class ReaderTests {
     }
 
     @Test
-    void stdinReaderShouldCacheContent() throws Exception {
-        // Note: This test assumes no actual stdin input,
-        // just verifies caching behavior
-        Reader reader = new StdinReader();
-        String firstRead = reader.read();
-        String secondRead = reader.read();
+    void stdinReaderShouldReadFromInputStream() throws Exception {
+        String testInput = "# Test Input\nSecond line";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(testInput.getBytes());
+        Reader reader = new StdinReader(inputStream);
+
+        String result = reader.read();
+        assertEquals(testInput, result);
+        assertFalse(reader.hasChanged());
+
+        // Second read should return cached content
+        assertEquals(testInput, reader.read());
+    }
+}
 
         assertNotNull(firstRead);
         assertEquals(firstRead, secondRead);
