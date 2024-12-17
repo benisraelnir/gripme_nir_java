@@ -11,8 +11,13 @@ import java.nio.file.Path;
 @Configuration
 public class ReaderConfig {
     @Bean
+    public Path defaultPath() {
+        return Path.of(System.getProperty("user.dir"));
+    }
+
+    @Bean
     @Primary
-    public Reader defaultReader() {
-        return new DirectoryReader(Path.of(System.getProperty("user.dir")));
+    public Reader defaultReader(Path defaultPath) {
+        return new DirectoryReader(defaultPath);
     }
 }
