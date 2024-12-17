@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 /**
  * Reads Markdown content from standard input or provided InputStream.
  */
+@Component
 public class StdinReader implements Reader {
     private final InputStream inputStream;
     private String cachedContent;

@@ -1,24 +1,29 @@
 package com.github.benisraelnir.gripme.core.reader;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Reads Markdown content from a directory/file path.
  */
+@Component
 public class DirectoryReader implements Reader {
     private final Path basePath;
-    private FileTime lastModifiedTime;
+    private final Map<Path, FileTime> lastModifiedTimes;
 
     public DirectoryReader(Path basePath) {
         this.basePath = basePath;
+        this.lastModifiedTimes = new HashMap<>();
         try {
             if (Files.exists(basePath)) {
-                this.lastModifiedTime = Files.getLastModifiedTime(basePath);
+                this.lastModifiedTimes.put(basePath, Files.getLastModifiedTime(basePath));
             }
         } catch (Exception e) {
             // Ignore initialization errors, will be handled in read()
@@ -33,17 +38,25 @@ public class DirectoryReader implements Reader {
         }
 
         byte[] content = Files.readAllBytes(resolvedPath);
-        lastModifiedTime = Files.getLastModifiedTime(resolvedPath);
+        lastModifiedTimes.put(resolvedPath, Files.getLastModifiedTime(resolvedPath));
         return new String(content);
     }
 
     @Override
     public boolean hasChanged() throws Exception {
-        if (!Files.exists(basePath) || lastModifiedTime == null) {
-            return true;
-        }
+        for (Map.Entry<Path, FileTime> entry : lastModifiedTimes.entrySet()) {
+            Path path = entry.getKey();
+            FileTime lastModifiedTime = entry.getValue();
 
-        FileTime currentModifiedTime = Files.getLastModifiedTime(basePath);
-        return !currentModifiedTime.equals(lastModifiedTime);
+            if (!Files.exists(path)) {
+                return true;
+            }
+
+            FileTime currentModifiedTime = Files.getLastModifiedTime(path);
+            if (!currentModifiedTime.equals(lastModifiedTime)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
