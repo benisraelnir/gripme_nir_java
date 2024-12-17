@@ -1,28 +1,39 @@
 package com.github.benisraelnir.gripme.cli;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import com.github.benisraelnir.gripme.service.GitHubService;
 import picocli.CommandLine;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class GripCommandTest {
 
-    @Autowired
+    @Mock
     private ConfigurableApplicationContext context;
 
-    @Autowired
+    @Mock
     private GitHubService githubService;
+
+    private GripCommand gripCommand;
+    private CommandLine cmd;
+
+    @BeforeEach
+    void setUp() {
+        gripCommand = new GripCommand(context, githubService);
+        cmd = new CommandLine(gripCommand);
+    }
 
     @Test
     void testDefaultValues() {
-        GripCommand gripCommand = new GripCommand(context, githubService);
-        CommandLine cmd = new CommandLine(gripCommand);
         cmd.parseArgs("README.md");
 
         assertEquals("README.md", gripCommand.getPath().toString());
@@ -35,13 +46,11 @@ class GripCommandTest {
 
     @Test
     void testCustomValues() {
-        GripCommand gripCommand = new GripCommand(context, githubService);
-        CommandLine cmd = new CommandLine(gripCommand);
         cmd.parseArgs(
             "README.md",
             "--port=8080",
             "--wide",
-            "--no-browser",
+            "--browser=false",
             "--user=testuser",
             "--pass=testpass"
         );
@@ -56,8 +65,6 @@ class GripCommandTest {
 
     @Test
     void testCallWithCredentials() {
-        GripCommand gripCommand = new GripCommand(context, githubService);
-        CommandLine cmd = new CommandLine(gripCommand);
         cmd.parseArgs(
             "README.md",
             "--user=testuser",

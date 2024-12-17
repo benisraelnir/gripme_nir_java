@@ -49,7 +49,7 @@ public class MarkdownControllerTest {
                 .contentType(MediaType.TEXT_PLAIN)
                 .content(markdown))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.TEXT_HTML))
+                .andExpect(content().contentType(MediaType.TEXT_HTML_VALUE + ";charset=UTF-8"))
                 .andExpect(content().string(rendered));
     }
 
@@ -64,7 +64,7 @@ public class MarkdownControllerTest {
         mockMvc.perform(post("/api/render")
                 .param("path", path))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.TEXT_HTML))
+                .andExpect(content().contentType(MediaType.TEXT_HTML_VALUE + ";charset=UTF-8"))
                 .andExpect(content().string(rendered));
     }
 
@@ -79,7 +79,7 @@ public class MarkdownControllerTest {
                 .contentType(MediaType.TEXT_PLAIN)
                 .content(markdown))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.TEXT_HTML))
+                .andExpect(content().contentType(MediaType.TEXT_HTML_VALUE + ";charset=UTF-8"))
                 .andExpect(content().string(rendered));
     }
 
