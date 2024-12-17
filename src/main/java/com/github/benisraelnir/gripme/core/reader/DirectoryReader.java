@@ -10,10 +10,20 @@ import java.nio.file.attribute.FileTime;
 /**
  * Reads Markdown content from a directory/file path.
  */
-@RequiredArgsConstructor
 public class DirectoryReader implements Reader {
     private final Path path;
     private FileTime lastModifiedTime;
+
+    public DirectoryReader(Path path) {
+        this.path = path;
+        try {
+            if (Files.exists(path)) {
+                this.lastModifiedTime = Files.getLastModifiedTime(path);
+            }
+        } catch (Exception e) {
+            // Ignore initialization errors, will be handled in read()
+        }
+    }
 
     @Override
     public String read() throws Exception {
