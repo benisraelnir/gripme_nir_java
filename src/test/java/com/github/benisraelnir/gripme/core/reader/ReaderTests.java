@@ -17,7 +17,7 @@ class ReaderTests {
         Reader reader = new TextReader(content);
 
         assertDoesNotThrow(() -> {
-            assertEquals(content, reader.read());
+            assertEquals(content, reader.read(null));
             assertFalse(reader.hasChanged());
         });
     }
@@ -28,9 +28,9 @@ class ReaderTests {
         Path file = tempDir.resolve("test.md");
         Files.writeString(file, content);
 
-        Reader reader = new DirectoryReader(file);
+        Reader reader = new DirectoryReader(tempDir);
 
-        assertEquals(content, reader.read());
+        assertEquals(content, reader.read("test.md"));
         assertFalse(reader.hasChanged());
 
         // Ensure enough time passes for filesystem to register the change
@@ -45,7 +45,7 @@ class ReaderTests {
     void directoryReaderShouldThrowForNonExistentFile() {
         Reader reader = new DirectoryReader(Path.of("nonexistent.md"));
 
-        assertThrows(IllegalArgumentException.class, reader::read);
+        assertThrows(IllegalArgumentException.class, () -> reader.read(null));
     }
 
     @Test
@@ -54,11 +54,11 @@ class ReaderTests {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(testInput.getBytes());
         Reader reader = new StdinReader(inputStream);
 
-        String result = reader.read();
+        String result = reader.read(null);
         assertEquals(testInput, result);
         assertFalse(reader.hasChanged());
 
         // Second read should return cached content
-        assertEquals(testInput, reader.read());
+        assertEquals(testInput, reader.read(null));
     }
 }

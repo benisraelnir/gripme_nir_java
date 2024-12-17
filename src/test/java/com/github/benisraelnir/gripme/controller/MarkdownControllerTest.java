@@ -10,7 +10,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import java.util.Collections;
+import java.util.Map;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,7 +38,7 @@ public class MarkdownControllerTest {
     public void testRenderMarkdownWithContent() throws Exception {
         String markdown = "# Test";
         String rendered = "<h1>Test</h1>";
-        when(renderer.render(markdown)).thenReturn(rendered);
+        when(renderer.render(eq(markdown), any(Map.class))).thenReturn(rendered);
 
         mockMvc.perform(post("/api/render")
                 .contentType(MediaType.TEXT_PLAIN)
@@ -50,7 +54,7 @@ public class MarkdownControllerTest {
         String markdown = "# Test";
         String rendered = "<h1>Test</h1>";
         when(reader.read(path)).thenReturn(markdown);
-        when(renderer.render(markdown)).thenReturn(rendered);
+        when(renderer.render(eq(markdown), any(Map.class))).thenReturn(rendered);
 
         mockMvc.perform(post("/api/render")
                 .param("path", path))
