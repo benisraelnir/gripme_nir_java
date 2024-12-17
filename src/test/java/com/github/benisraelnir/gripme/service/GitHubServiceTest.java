@@ -2,71 +2,106 @@ package com.github.benisraelnir.gripme.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.HttpClientErrorException;
+import org.mockito.ArgumentCaptor;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpStatus;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class GitHubServiceTest {
-    @Mock
     private RestTemplate restTemplate;
-
-    private GitHubService gitHubService;
+    private GitHubService githubService;
+    private static final String API_URL = "https://api.github.com";
 
     @BeforeEach
     void setUp() {
-        gitHubService = new GitHubService(restTemplate);
+        restTemplate = mock(RestTemplate.class);
+        githubService = new GitHubService(restTemplate, API_URL);
     }
 
     @Test
-    void renderMarkdownShouldCallGitHubAPI() {
+    void testRenderMarkdownWithoutAuth() {
         String markdown = "# Test";
         String expectedHtml = "<h1>Test</h1>";
 
+        ResponseEntity<String> mockResponse = new ResponseEntity<>(expectedHtml, HttpStatus.OK);
         when(restTemplate.postForObject(
-            eq("/markdown"),
+            eq(API_URL + "/markdown"),
             any(HttpEntity.class),
             eq(String.class)
         )).thenReturn(expectedHtml);
 
-        String result = gitHubService.renderMarkdown(markdown, true, "user/repo");
+        String result = githubService.renderMarkdown(markdown, true, "user/repo");
         assertEquals(expectedHtml, result);
+
+        ArgumentCaptor<HttpEntity<Map<String, Object>>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        verify(restTemplate).postForObject(
+            eq(API_URL + "/markdown"),
+            requestCaptor.capture(),
+            eq(String.class)
+        );
+
+        HttpHeaders headers = requestCaptor.getValue().getHeaders();
+        assertNull(headers.get("Authorization"));
     }
 
     @Test
-    void renderMarkdownShouldHandleRateLimitError() {
+    void testRenderMarkdownWithAuth() {
+        githubService.setCredentials("user", "pass");
         String markdown = "# Test";
+        String expectedHtml = "<h1>Test</h1>";
+
         when(restTemplate.postForObject(
-            eq("/markdown"),
+            eq(API_URL + "/markdown"),
             any(HttpEntity.class),
             eq(String.class)
-        )).thenThrow(new HttpClientErrorException(HttpStatus.FORBIDDEN, "API rate limit exceeded"));
+        )).thenReturn(expectedHtml);
 
-        assertThrows(HttpClientErrorException.class, () ->
-            gitHubService.renderMarkdown(markdown, true, "user/repo"));
+        String result = githubService.renderMarkdown(markdown, true, "user/repo");
+        assertEquals(expectedHtml, result);
+
+        ArgumentCaptor<HttpEntity<Map<String, Object>>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        verify(restTemplate).postForObject(
+            eq(API_URL + "/markdown"),
+            requestCaptor.capture(),
+            eq(String.class)
+        );
+
+        HttpHeaders headers = requestCaptor.getValue().getHeaders();
+        assertNotNull(headers.get("Authorization"));
+        assertTrue(headers.get("Authorization").get(0).startsWith("Basic "));
     }
 
     @Test
-    void renderMarkdownShouldHandleAuthenticationError() {
-        String markdown = "# Test";
-        when(restTemplate.postForObject(
-            eq("/markdown"),
-            any(HttpEntity.class),
-            eq(String.class)
-        )).thenThrow(new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "Bad credentials"));
+    void testGetAssetWithAuth() {
+        githubService.setCredentials("user", "pass");
+        byte[] expectedData = "test data".getBytes();
+        String path = "test/path";
 
-        assertThrows(HttpClientErrorException.class, () ->
-            gitHubService.renderMarkdown(markdown, true, "user/repo"));
+        ResponseEntity<byte[]> mockResponse = new ResponseEntity<>(expectedData, HttpStatus.OK);
+        when(restTemplate.exchange(
+            eq(API_URL + "/raw?path=" + path),
+            eq(HttpMethod.GET),
+            any(HttpEntity.class),
+            eq(byte[].class)
+        )).thenReturn(mockResponse);
+
+        byte[] result = githubService.getAsset(path);
+        assertArrayEquals(expectedData, result);
+
+        ArgumentCaptor<HttpEntity<Void>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        verify(restTemplate).exchange(
+            eq(API_URL + "/raw?path=" + path),
+            eq(HttpMethod.GET),
+            requestCaptor.capture(),
+            eq(byte[].class)
+        );
+
+        HttpHeaders headers = requestCaptor.getValue().getHeaders();
+        assertNotNull(headers.get("Authorization"));
+        assertTrue(headers.get("Authorization").get(0).startsWith("Basic "));
     }
 }
