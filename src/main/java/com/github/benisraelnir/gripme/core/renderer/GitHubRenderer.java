@@ -1,32 +1,22 @@
 package com.github.benisraelnir.gripme.core.renderer;
 
+import com.github.benisraelnir.gripme.service.GitHubService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 /**
  * Renders Markdown content using GitHub's API.
  */
+@Component
 @RequiredArgsConstructor
 public class GitHubRenderer implements Renderer {
-    private final RestTemplate restTemplate;
-    private final String githubApiUrl;
-    private final Map<String, String> headers;
+    private final GitHubService githubService;
 
     @Override
     public String render(String content, Map<String, Object> context) throws Exception {
-        var request = Map.of(
-            "text", content,
-            "mode", "markdown",
-            "context", context.getOrDefault("context", "")
-        );
-
-        return restTemplate.postForObject(
-            githubApiUrl + "/markdown",
-            request,
-            String.class
-        );
+        return githubService.renderMarkdown(content, context);
     }
 
     @Override
