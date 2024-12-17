@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.github.benisraelnir.gripme.GripmeApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.808 s -- in com.github.benisraelnir.gripme.GripmeApplicationTests

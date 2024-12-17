@@ -21,7 +21,7 @@ public class StdinReader implements Reader {
     }
 
     @Override
-    public String read() throws Exception {
+    public String read(String path) throws Exception {
         if (cachedContent == null) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
                 cachedContent = reader.lines().collect(Collectors.joining("\n"));

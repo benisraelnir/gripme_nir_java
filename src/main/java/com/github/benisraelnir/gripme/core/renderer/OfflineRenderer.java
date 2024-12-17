@@ -27,4 +27,9 @@ public class OfflineRenderer implements Renderer {
         var document = parser.parse(content);
         return htmlRenderer.render(document);
     }
+
+    @Override
+    public String renderRaw(String content) throws Exception {
+        return render(content, Map.of());
+    }
 }

@@ -28,4 +28,9 @@ public class GitHubRenderer implements Renderer {
             String.class
         );
     }
+
+    @Override
+    public String renderRaw(String content) throws Exception {
+        return render(content, Map.of());
+    }
 }

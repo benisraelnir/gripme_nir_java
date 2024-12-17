@@ -14,6 +14,7 @@ import java.util.Map;
 public class GitHubService {
     private final RestTemplate restTemplate;
     private static final String MARKDOWN_ENDPOINT = "/markdown";
+    private static final String RAW_ENDPOINT = "/raw";
 
     @Autowired
     public GitHubService(RestTemplate restTemplate) {
@@ -33,5 +34,9 @@ public class GitHubService {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
         return restTemplate.postForObject(MARKDOWN_ENDPOINT, entity, String.class);
+    }
+
+    public byte[] getAsset(String path) {
+        return restTemplate.getForObject(RAW_ENDPOINT + "?path=" + path, byte[].class);
     }
 }

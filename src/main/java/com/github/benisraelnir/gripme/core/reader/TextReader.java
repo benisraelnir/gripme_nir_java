@@ -10,7 +10,7 @@ public class TextReader implements Reader {
     private final String content;
 
     @Override
-    public String read() {
+    public String read(String path) {
         return content;
     }
 

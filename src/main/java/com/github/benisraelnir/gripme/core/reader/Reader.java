@@ -7,10 +7,11 @@ public interface Reader {
     /**
      * Reads the content from the source.
      *
+     * @param path The path to read from (optional)
      * @return The content as a string
      * @throws Exception if reading fails
      */
-    String read() throws Exception;
+    String read(String path) throws Exception;
 
     /**
      * Checks if the content has been modified since last read.

@@ -1,1 +1,15 @@
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/config/GitHubConfig.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/asset/LocalAssetManager.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/reader/Reader.java
 /home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/GripmeApplication.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/renderer/OfflineRenderer.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/config/WebConfig.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/reader/DirectoryReader.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/renderer/GitHubRenderer.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/controller/MarkdownController.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/reader/TextReader.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/reader/StdinReader.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/asset/GitHubAssetManager.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/asset/AssetManager.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/service/GitHubService.java
+/home/ubuntu/repos/gripme_nir_java/src/main/java/com/github/benisraelnir/gripme/core/renderer/Renderer.java

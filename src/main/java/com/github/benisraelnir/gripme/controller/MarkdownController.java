@@ -8,7 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +22,7 @@ public class MarkdownController {
     @PostMapping(value = "/render", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> renderMarkdown(@RequestBody(required = false) String content,
                                                @RequestParam(required = false) String path,
-                                               @RequestParam(defaultValue = "false") boolean raw) throws IOException {
+                                               @RequestParam(defaultValue = "false") boolean raw) throws Exception {
         String markdownContent = content;
         if (path != null) {
             markdownContent = reader.read(path);
@@ -29,7 +30,7 @@ public class MarkdownController {
 
         String renderedHtml = raw ?
             renderer.renderRaw(markdownContent) :
-            renderer.render(markdownContent);
+            renderer.render(markdownContent, Collections.emptyMap());
 
         return ResponseEntity.ok()
             .contentType(MediaType.TEXT_HTML)
@@ -37,7 +38,7 @@ public class MarkdownController {
     }
 
     @GetMapping(value = "/asset/**", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<byte[]> getAsset(@RequestParam String path) throws IOException {
+    public ResponseEntity<byte[]> getAsset(@RequestParam String path) {
         byte[] asset = githubService.getAsset(path);
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
