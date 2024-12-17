@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title ?: 'Grip - GitHub Readme Instant Preview'}">Grip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link th:if="${favicon}" rel="icon" type="image/x-icon" th:href="${favicon}">
+    <link th:unless="${favicon}" rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+
+    <!-- GitHub Styles -->
+    <link th:each="styleUrl : ${styleUrls}" rel="stylesheet" th:href="${styleUrl}">
+    <style th:each="style : ${styles}" th:utext="${style}"></style>
+
+    <!-- WebSocket Dependencies -->
+    <script src="/webjars/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.4/stomp.min.js"></script>
+    <script th:if="${autorefreshUrl}" src="/js/live-preview.js"></script>
+</head>
+<body th:class="${wideStyle ? 'wide' : ''}"
+      th:attr="data-color-mode=${dataColorMode},data-light-theme=${dataLightTheme},data-dark-theme=${dataDarkTheme}">
+    <div class="markdown-body" th:utext="${content}"></div>
+</body>
+</html>
