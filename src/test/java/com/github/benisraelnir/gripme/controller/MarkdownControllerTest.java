@@ -1,5 +1,6 @@
 package com.github.benisraelnir.gripme.controller;
 
+import com.github.benisraelnir.gripme.config.TestConfig;
 import com.github.benisraelnir.gripme.service.GitHubService;
 import com.github.benisraelnir.gripme.core.reader.Reader;
 import com.github.benisraelnir.gripme.core.renderer.Renderer;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -21,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MarkdownController.class)
+@Import(TestConfig.class)
 public class MarkdownControllerTest {
     @Autowired
     private MockMvc mockMvc;
