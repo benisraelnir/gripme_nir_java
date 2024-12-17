@@ -6,6 +6,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
@@ -31,43 +32,51 @@ public class GitHubService {
         this.password = password;
     }
 
-    public String renderMarkdown(String content, boolean isGfm, String context) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.TEXT_HTML));
+    public String renderMarkdown(String content, boolean isGfm, String context) throws Exception {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAccept(Collections.singletonList(MediaType.TEXT_HTML));
 
-        if (username != null && password != null) {
-            String auth = username + ":" + password;
-            byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
-            String authHeader = "Basic " + new String(encodedAuth);
-            headers.set("Authorization", authHeader);
+            if (username != null && password != null) {
+                String auth = username + ":" + password;
+                byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
+                String authHeader = "Basic " + new String(encodedAuth);
+                headers.set("Authorization", authHeader);
+            }
+
+            Map<String, Object> request = Map.of(
+                "text", content,
+                "mode", isGfm ? "gfm" : "markdown",
+                "context", context
+            );
+
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
+            return restTemplate.postForObject(apiUrl + "/markdown", entity, String.class);
+        } catch (RestClientException e) {
+            throw new Exception("Failed to render markdown: " + e.getMessage(), e);
         }
-
-        Map<String, Object> request = Map.of(
-            "text", content,
-            "mode", isGfm ? "gfm" : "markdown",
-            "context", context
-        );
-
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
-        return restTemplate.postForObject(apiUrl + "/markdown", entity, String.class);
     }
 
-    public byte[] getAsset(String path) {
-        HttpHeaders headers = new HttpHeaders();
-        if (username != null && password != null) {
-            String auth = username + ":" + password;
-            byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
-            String authHeader = "Basic " + new String(encodedAuth);
-            headers.set("Authorization", authHeader);
-        }
+    public byte[] getAsset(String path) throws Exception {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            if (username != null && password != null) {
+                String auth = username + ":" + password;
+                byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
+                String authHeader = "Basic " + new String(encodedAuth);
+                headers.set("Authorization", authHeader);
+            }
 
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
-        return restTemplate.exchange(
-            apiUrl + "/raw?path=" + path,
-            org.springframework.http.HttpMethod.GET,
-            entity,
-            byte[].class
-        ).getBody();
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
+            return restTemplate.exchange(
+                apiUrl + "/raw?path=" + path,
+                org.springframework.http.HttpMethod.GET,
+                entity,
+                byte[].class
+            ).getBody();
+        } catch (RestClientException e) {
+            throw new Exception("Failed to get asset: " + e.getMessage(), e);
+        }
     }
 }
