@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rate Limit</title>
+</head>
+<body>
+    <div>
+        <h1>GitHub API Rate Limit Exceeded</h1>
+        <p th:if="${isAuthenticated}">
+            The authenticated user's rate limit has been exceeded.
+        </p>
+        <p th:unless="${isAuthenticated}">
+            The anonymous user's rate limit has been exceeded.
+            Please try authenticating to get a higher rate limit.
+        </p>
+    </div>
+</body>
+</html>

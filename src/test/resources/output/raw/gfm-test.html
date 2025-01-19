@@ -1,0 +1,56 @@
+<div class="markdown-heading"><h1 class="heading-element">GitHub Flavored Markdown Test</h1><a id="user-content-github-flavored-markdown-test" class="anchor" aria-label="Permalink: GitHub Flavored Markdown Test" href="#github-flavored-markdown-test"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This Markdown file contains all the features of <strong>GitHub Flavored Markdown</strong> for
+testing a renderer with.</p>
+<p>The features are taken directly from <a href="https://daringfireball.net/projects/markdown/syntax" rel="nofollow">Daring Fireball</a>
+and <a href="https://help.github.com/articles/github-flavored-markdown/">GitHub Flavored Markdown</a>,
+followed by a list of one-offs.</p>
+
+<div class="markdown-heading"><h2 class="heading-element">Inline HTML</h2><a id="user-content-inline-html" class="anchor" aria-label="Permalink: Inline HTML" href="#inline-html"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table role="table">
+  <tr>
+    <td>Foo</td>
+  </tr>
+  <tr>
+    <td>
+      Note that Markdown formatting syntax is not processed within block-level HTML tags.
+      E.g., you can't use Markdown-style *emphasis* inside an HTML block.
+    </td>
+  </tr>
+</table>
+
+<p>Span-level HTML tags — e.g. &lt;span&gt;, &lt;cite&gt;, or &lt;del&gt; — can be used anywhere
+in a Markdown paragraph, list item, or header. If you want, you can even use HTML tags instead
+of Markdown formatting; e.g. if you'd prefer to use HTML &lt;a&gt; or &lt;img&gt; tags instead
+of Markdown's link or image syntax, go right ahead.</p>
+
+<div class="markdown-heading"><h4 class="heading-element">Testing <span>span</span>, cite, and <del>del</del> tags</h4><a id="user-content-testing-span-cite-and-del-tags" class="anchor" aria-label="Permalink: Testing span, cite, and del tags" href="#testing-span-cite-and-del-tags"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Testing <span>span</span>, cite, and <del>del</del> tags in a paragraph.</p>
+
+<p>And each element in its own list item:</p>
+<ul>
+<li><span>This is within a span tag.</span></li>
+<li>This is within a cite tag.</li>
+<li><del>This is within a del tag.</del></li>
+</ul>
+
+<div class="markdown-heading"><h2 class="heading-element">Code blocks</h2><a id="user-content-code-blocks" class="anchor" aria-label="Permalink: Code blocks" href="#code-blocks"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This is a normal paragraph:</p>
+<pre class="notranslate"><code class="notranslate">This is a code block.</code></pre>
+
+<p>Here is an example of AppleScript:</p>
+<pre class="notranslate"><code class="notranslate">tell application "Foo"
+    beep
+end tell</code></pre>
+
+<div class="markdown-heading"><h4 class="heading-element">Syntax highlighting</h4><a id="user-content-syntax-highlighting" class="anchor" aria-label="Permalink: Syntax highlighting" href="#syntax-highlighting"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-en">print</span>(<span class="pl-s">'Hello!'</span>)</pre></div>
+
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">'JavaScript!'</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+
+<div class="markdown-heading"><h4 class="heading-element">Task lists</h4><a id="user-content-task-lists" class="anchor" aria-label="Permalink: Task lists" href="#task-lists"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" checked=""> @mentions, #refs, <a href="">links</a>, <strong>formatting</strong>, and <del>tags</del> are supported</li>
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" checked=""> list syntax is required (any unordered or ordered list supported)</li>
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" checked=""> this is a complete item</li>
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox"> this is an incomplete item</li>
+</ul>

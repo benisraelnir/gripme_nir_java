@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title ?: (filename ?: '') + ' - Grip'}">Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:each="styleUrl : ${styleUrls}" rel="stylesheet" th:href="${styleUrl}">
+    <style th:each="style : ${styles}" th:utext="${style}"></style>
+</head>
+<body th:attr="data-color-mode=${dataColorMode}, data-light-theme=${dataLightTheme}, data-dark-theme=${dataDarkTheme}">
+    <div id="preview-page" class="preview-page" th:attr="data-autorefresh-url=${autorefreshUrl}">
+        <main id="js-repo-pjax-container">
+            <div class="clearfix new-discussion-timeline container-xl px-3 px-md-4 px-lg-5">
+                <div class="repository-content">
+                    <div class="clearfix">
+                        <div class="Layout Layout--flowRow-until-md Layout--sidebarPosition-end Layout--sidebarPosition-flowRow-end">
+                            <div class="Layout-main">
+                                <div th:if="${!userContent}" id="readme" class="Box md Box--responsive">
+                                    <div th:if="${title != null or filename != null}" class="Box-header d-flex border-bottom-0 flex-items-center flex-justify-between color-bg-default rounded-top-2">
+                                        <div class="d-flex flex-items-center">
+                                            <h2 class="Box-title" th:text="${title ?: filename}"></h2>
+                                        </div>
+                                    </div>
+                                    <div class="Box-body px-5 pb-5">
+                                        <article id="grip-content" class="markdown-body entry-content container-lg" th:utext="${content}">Content goes here</article>
+                                    </div>
+                                </div>
+                                <div th:if="${userContent}" class="pull-discussion-timeline">
+                                    <div class="ml-0 pl-0 ml-md-6 pl-md-3">
+                                        <div class="TimelineItem pt-0">
+                                            <div class="timeline-comment-group TimelineItem-body my-0">
+                                                <div class="ml-n3 timeline-comment unminimized-comment comment previewable-edit editable-comment timeline-comment--caret reorderable-task-lists">
+                                                    <div th:if="${title}" class="timeline-comment-header clearfix d-block d-sm-flex">
+                                                        <h3 class="timeline-comment-header-text f5 text-normal">
+                                                            <strong class="css-truncate expandable"><span class="author text-inherit css-truncate-target" th:text="${title}"></span></strong>
+                                                        </h3>
+                                                    </div>
+                                                    <div class="edit-comment-hide">
+                                                        <table class="d-block">
+                                                            <tbody class="d-block">
+                                                                <tr class="d-block">
+                                                                    <td class="d-block comment-body markdown-body" id="grip-content" th:utext="${content}"></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<h1 dir="auto">GitHub Flavored Markdown Test</h1>
+<p dir="auto">This Markdown file contains all the features of <strong>GitHub Flavored Markdown</strong> for<br>
+testing a renderer with.</p>
+<p dir="auto">The features are taken directly from <a href="https://daringfireball.net/projects/markdown/syntax" rel="nofollow">Daring Fireball</a><br>
+and <a href="https://help.github.com/articles/github-flavored-markdown/">GitHub Flavored Markdown</a>,<br>
+followed by a list of one-offs.</p>
+
+<h2 dir="auto">Inline HTML</h2>
+<markdown-accessiblity-table><table role="table">
+  <tr>
+    <td>Foo</td>
+  </tr>
+  <tr>
+    <td>
+      Note that Markdown formatting syntax is not processed within block-level HTML tags.
+      E.g., you can't use Markdown-style *emphasis* inside an HTML block.
+    </td>
+  </tr>
+</table></markdown-accessiblity-table>
+
+<p dir="auto">Span-level HTML tags — e.g. &lt;span&gt;, &lt;cite&gt;, or &lt;del&gt; — can be used anywhere<br>
+in a Markdown paragraph, list item, or header. If you want, you can even use HTML tags instead<br>
+of Markdown formatting; e.g. if you'd prefer to use HTML &lt;a&gt; or &lt;img&gt; tags instead<br>
+of Markdown's link or image syntax, go right ahead.</p>
+
+<h4 dir="auto">Testing <span>span</span>, cite, and <del>del</del> tags</h4>
+<p dir="auto">Testing <span>span</span>, cite, and <del>del</del> tags in a paragraph.</p>
+
+<p dir="auto">And each element in its own list item:</p>
+<ul dir="auto">
+<li><span>This is within a span tag.</span></li>
+<li>This is within a cite tag.</li>
+<li><del>This is within a del tag.</del></li>
+</ul>
+
+<h2 dir="auto">Code blocks</h2>
+<p dir="auto">This is a normal paragraph:</p>
+<pre class="notranslate"><code class="notranslate">This is a code block.</code></pre>
+
+<p dir="auto">Here is an example of AppleScript:</p>
+<pre class="notranslate"><code class="notranslate">tell application "Foo"
+    beep
+end tell</code></pre>
+
+<h4 dir="auto">Syntax highlighting</h4>
+<div class="highlight highlight-source-python" dir="auto"><pre class="notranslate"><span class="pl-en">print</span>(<span class="pl-s">'Hello!'</span>)</pre></div>
+
+<div class="highlight highlight-source-js" dir="auto"><pre class="notranslate"><span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">'JavaScript!'</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+
+<h4 dir="auto">Task lists</h4>
+<ul class="contains-task-list" dir="auto">
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" checked=""> @mentions, #refs, <a href="" data-hovercard-type="issue">links</a>, <strong>formatting</strong>, and <del>tags</del> are supported</li>
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" checked=""> list syntax is required (any unordered or ordered list supported)</li>
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" checked=""> this is a complete item</li>
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox"> this is an incomplete item</li>
+</ul>
